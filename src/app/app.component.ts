@@ -15,6 +15,7 @@ export class AppComponent implements OnInit {
   public numberContact: string = '';
   public chatExpanded: boolean = false;
   public message: Message = {} as Message;
+  public closeCompanySettings: boolean = true;
 
   title = 'whatsapp';
   chatId = 'hIbEPShL5G1eh50MR3r2XZbeNez2INQTnwdVJERu  ';
