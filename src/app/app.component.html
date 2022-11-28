@@ -1,43 +1,81 @@
-<div class="w-full h-screen bg-yellow-500 flex items-center justify-center">
-  <div class="w-3/6 h-5/6 bg-white flex-column relative shadow-md rounded-lg overflow-hidden">
+<div class="w-full h-screen flex items-center justify-center" style="
+background-image: linear-gradient(45deg, #29dc7b, transparent);">
+  <!-- apresentation -->
+  <div class="relative bg-slate-800 shadow-inner rounded-lg w-2/6 h-3/6 flex-column items-center justify-center"
+    [hidden]="!closeChat">
+    <img class="w-4/6 mx-auto mt-10"
+      src="https://images.squarespace-cdn.com/content/56d8ba4ab654f9a47f6d39fa/1548958750267-5G4A3EP4R7U62XSP5YML/logo-magnifinance%402x.png?content-type=image%2Fpng"
+      alt="">
+    <p class="text-center font-thin text-2xl mt-8 text-gray-200">
+      WhatsApp WebApi Tester
+    </p>
+    <img (click)="hideChat()" class="cursor-pointer w-24 mx-auto mt-5 shadow-md rounded-full"
+      src="https://cdn-icons-png.flaticon.com/512/4494/4494495.png" alt="">
+    <span class="text-gray-400  h-8 text-sm text-right w-full pr-4 bottom-0 absolute">by Débora L. F. Maciel</span>
+  </div>
+
+  <!-- chat -->
+  <div [hidden]="closeChat"
+    style="background-image: url('https://i.pinimg.com/originals/85/70/f6/8570f6339d3189c96e340d47a581d3b8.jpg');"
+    [ngClass]="!chatExpanded? 'w-3/6 h-5/6 bg-white flex-column relative shadow-md rounded-lg overflow-hidden' : 'w-full h-full bg-white flex-column relative shadow-md overflow-hidden'">
     <div class="w-full bg-slate-700 h-14 absolute flex items-center justify-center shadow-md"
       style="z-index: 99;overflow: hidden;">
       <div class="w-3/6 pl-4 text-sm text-left text-white flex mr-2 items-center ">
         <img class="w-8 mr-2" src="https://cdn-icons-png.flaticon.com/512/4494/4494495.png" alt="">
-        Débora L. F. Maciel <span class="ml-4">{{numberContact}}</span></div>
+        Débora L. F. Maciel <span class="ml-4">{{numberContact}}</span>
+      </div>
       <div class="w-1/6"></div>
       <div class="w-1/6"></div>
       <div class="w-1/6 flex text-center items-center justify-center">
-        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor"
-          class="w-4 h-4 mr-2 bg-red-500 rounded-full p-1">
+        <!-- Close chat -->
+        <svg (click)="hideChat()" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5"
+          stroke="currentColor"
+          [ngClass]="chatExpanded? 'w-6 h-6 mr-2 rounded-full bg-red-500 p-1' : 'w-5 h-5 mr-2 rounded-full bg-red-500 p-1'">
           <path stroke-linecap="round" stroke-linejoin="round" d="M6 18L18 6M6 6l12 12" />
         </svg>
 
-        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor"
-          class="w-4 h-4 mr-2 rounded-full bg-yellow-400 p-1">
+        <!-- Minimize chat -->
+        <svg (click)="hideChat()" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5"
+          stroke="currentColor"
+          [ngClass]="chatExpanded? 'w-6 h-6 mr-2 rounded-full bg-yellow-500 p-1' : 'w-5 h-5 mr-2 rounded-full bg-yellow-500 p-1'">
           <path stroke-linecap="round" stroke-linejoin="round" d="M19.5 12h-15" />
         </svg>
 
-        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor"
-          class="w-4 h-4 mr-2 rounded-full bg-green-500 p-1">
+        <!-- Down chat -->
+        <svg *ngIf="chatExpanded" (click)="expandChat()" xmlns="http://www.w3.org/2000/svg" fill="none"
+          viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor"
+          class="w-6 h-6 mr-2 rounded-full bg-green-500 p-1">
+          <path stroke-linecap="round" stroke-linejoin="round"
+            d="M9 9V4.5M9 9H4.5M9 9L3.75 3.75M9 15v4.5M9 15H4.5M9 15l-5.25 5.25M15 9h4.5M15 9V4.5M15 9l5.25-5.25M15 15h4.5M15 15v4.5m0-4.5l5.25 5.25" />
+        </svg>
+
+        <!-- Expand chat -->
+        <svg *ngIf="!chatExpanded" (click)="expandChat()" xmlns="http://www.w3.org/2000/svg" fill="none"
+          viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor"
+          class="w-5 h-5 mr-2 rounded-full bg-green-500 p-1">
           <path stroke-linecap="round" stroke-linejoin="round"
             d="M3.75 3.75v4.5m0-4.5h4.5m-4.5 0L9 9M3.75 20.25v-4.5m0 4.5h4.5m-4.5 0L9 15M20.25 3.75h-4.5m4.5 0v4.5m0-4.5L15 9m5.25 11.25h-4.5m4.5 0v-4.5m0 4.5L15 15" />
         </svg>
       </div>
     </div>
-    <div class="w-full flex items-center justify-center" style="height: 93%; background-image: url('https://i.pinimg.com/originals/85/70/f6/8570f6339d3189c96e340d47a581d3b8.jpg');">
-      <div class="w-full relative mt-14 flex flex-column pt-2 flex-col-reverse  overflow-y-scroll" style="max-height: 93%; ">
+    <div class="w-full flex items-center justify-center" style="height: 93%; ">
+      <div class="w-full relative mt-14 flex flex-column pt-2 flex-col-reverse  overflow-y-scroll"
+        style="max-height: 93%; ">
         <div class="w-full h-14 px-2" style="display: inline-block; height: auto;"
           *ngFor="let message of messages.slice().reverse(); index as i; first as isFirst">
           <div
             [ngClass]="message.contact === true ? 'w-auto bg-gray-300 rounded-r-lg rounded-t-lg shadow-md overflow-hidden break-words float-left mb-2 max-w-md p-3' : 'shadow-md mb-1 w-auto bg-gray-600 rounded-l-lg rounded-t-lg  overflow-hidden break-words float-right max-w-md p-3'">
             <div>
-              <img class="rounded-lg shadow-md my-1" src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQDuE2ejpy-CjPVNdAhuIVch-8DRr20pvVwxs2pBWtl&s" alt="">
+              <img class="rounded-lg shadow-md my-1"
+                src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQDuE2ejpy-CjPVNdAhuIVch-8DRr20pvVwxs2pBWtl&s"
+                alt="">
             </div>
             <div class="mt-2">
-            {{message.content}}
+              {{message.content}}
             </div>
-            <div style="font-size: 11px; margin-top: 5px;" [ngClass]="message.contact === true ? 'text-gray-600 font-bold' : 'text-gray-300 font-bold'">{{message.date | date : 'shortTime'}} </div>
+            <div style="font-size: 11px; margin-top: 5px;"
+              [ngClass]="message.contact === true ? 'text-gray-600 font-bold' : 'text-gray-300 font-bold'">
+              {{message.date | date : 'shortTime'}} </div>
           </div>
         </div>
       </div>
@@ -57,12 +95,13 @@
           </svg>
         </div>
         <div class="w-5/6 bg-white shadow-md rounded-lg h-full flex items-center justify-left pl-1">
-          <textarea  (keyup.enter)="addMessage(); message.content = ''" [(ngModel)]="message.content" type="text" placeholder="Type a message..."
+          <textarea (keyup.enter)="addMessage(); message.content = ''" [(ngModel)]="message.content" type="text"
+            placeholder="Type a message..."
             class="w-full h-full border-0 rounded-full text-sm outline-0 active:outline-none focus:outline-none focus:ring-white"></textarea>
         </div>
         <div>
-          <svg (click)="addMessage(); message.content = ''" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"
-            stroke-width="1.5" stroke="currentColor" class="w-6 h-6 text-gray-500 ml-4 -rotate-45">
+          <svg (click)="addMessage(); message.content = ''" xmlns="http://www.w3.org/2000/svg" fill="none"
+            viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-6 h-6 text-gray-500 ml-4 -rotate-45">
             <path stroke-linecap="round" stroke-linejoin="round"
               d="M6 12L3.269 3.126A59.768 59.768 0 0121.485 12 59.77 59.77 0 013.27 20.876L5.999 12zm0 0h7.5" />
           </svg>

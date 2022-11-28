@@ -9,8 +9,11 @@ import { Message } from './models/message.model';
 })
 export class AppComponent implements OnInit {
   constructor(private service: WhatsappService) {}
-  public numberContact: string = '';
+
   public messages: Message[] = [];
+  public closeChat: boolean = true;
+  public numberContact: string = '';
+  public chatExpanded: boolean = false;
   public message: Message = {} as Message;
 
   title = 'whatsapp';
@@ -22,7 +25,10 @@ export class AppComponent implements OnInit {
       .GetMessages(this.chatId)
       .subscribe(
         (x) => (
-          x.map((x) => (this.numberContact = this.formatNumberPhone(x.contactNumber))),
+          x.map(
+            (x) =>
+              (this.numberContact = this.formatNumberPhone(x.contactNumber))
+          ),
           (this.messages = x)
         )
       );
@@ -44,8 +50,17 @@ export class AppComponent implements OnInit {
     this.messages.push(model);
   }
 
-  formatNumberPhone(phoneNumber: string){
-    return phoneNumber.replace(/\D+/g, '')
-          .replace(/(\d{2})(\d{2})(\d{5})(\d{2})/, '+$1 ($2) $3-$4')
+  hideChat() {
+    this.closeChat = !this.closeChat;
+  }
+
+  expandChat(){
+    this.chatExpanded = !this.chatExpanded;
+  }
+
+  formatNumberPhone(phoneNumber: string) {
+    return phoneNumber
+      .replace(/\D+/g, '')
+      .replace(/(\d{2})(\d{2})(\d{5})(\d{2})/, '+$1 ($2) $3-$4');
   }
 }
