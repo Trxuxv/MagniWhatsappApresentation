@@ -36,26 +36,27 @@ export class AppComponent implements OnInit {
   }
 
   addMessage() {
-    console.log(this.messages);
-    const model: Message = {
-      chatId: this.chatId,
-      contact: true,
-      contactNumber: '5541997489578',
-      content: this.message.content,
-      date: new Date(),
-      file: '',
-      messageId: Math.random().toString(),
-      originNumber: '',
-    };
-
-    this.messages.push(model);
+    if (this.message.content === null || this.message.content === '') {
+    } else {
+      const model: Message = {
+        chatId: this.chatId,
+        contact: true,
+        contactNumber: '5541997489578',
+        content: this.message.content,
+        date: new Date(),
+        file: '',
+        messageId: Math.random().toString(),
+        originNumber: '',
+      };
+      this.messages.push(model);
+    }
   }
 
   hideChat() {
     this.closeChat = !this.closeChat;
   }
 
-  expandChat(){
+  expandChat() {
     this.chatExpanded = !this.chatExpanded;
   }
 
