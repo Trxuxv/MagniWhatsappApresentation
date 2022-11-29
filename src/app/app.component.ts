@@ -1,4 +1,5 @@
 import { WhatsappService } from './service/whatsapp.service';
+import { SendMessage } from './models/send-message.model';
 import { Component, OnInit } from '@angular/core';
 import { Message } from './models/message.model';
 
@@ -10,6 +11,12 @@ import { Message } from './models/message.model';
 export class AppComponent implements OnInit {
   constructor(private service: WhatsappService) {}
 
+  public fileSelected = {
+    name: '',
+    link: '',
+    type: '',
+  };
+  public currentInput: any = '';
   public messages: Message[] = [];
   public closeChat: boolean = true;
   public numberContact: string = '';
@@ -17,8 +24,9 @@ export class AppComponent implements OnInit {
   public message: Message = {} as Message;
   public closeCompanySettings: boolean = true;
 
+  companyId = 1;
   title = 'whatsapp';
-  chatId = 'hIbEPShL5G1eh50MR3r2XZbeNez2INQTnwdVJERu  ';
+  chatId = 'hIbEPShL5G1eh50MR3r2XZbeNez2INQTnwdVJERu';
 
   ngOnInit(): void {
     console.log(this.messages);
@@ -44,14 +52,46 @@ export class AppComponent implements OnInit {
         contactNumber: '5541997489578',
         content: this.message.content,
         date: new Date(),
-        file: '',
+        file: this.fileSelected.link,
         messageId: Math.random().toString(),
         originNumber: '',
       };
-      this.messages.push(model);
+
+      const newMessage: SendMessage = {
+        chatId: this.chatId,
+        caption: '',
+        contact: true,
+        link: '',
+        text: this.message.content,
+        typeMessage: 0,
+        to: '5541997489578',
+      };
+
+      this.service.PostMessage(newMessage, this.companyId).subscribe((x) => {
+        if (x) {
+          this.messages.push(model);
+        } else {
+          throw new Error('Erro ao enviar mensagem.');
+        }
+      });
     }
   }
-
+  fileChangeEvent(fileInput: any) {
+    if (fileInput.target.files && fileInput.target.files[0]) {
+      this.fileSelected.name = fileInput.target.files[0].name.split('.')[0];
+      this.fileSelected.type = fileInput.target.files[0].type.split('/').pop();
+      const reader = new FileReader();
+      reader.onload = (e: any) => {
+        const image = new Image();
+        image.src = e.target.result;
+        this.fileSelected.link = e.target.result;
+        image.onload = (rs) => {
+          rs;
+        };
+      };
+      reader.readAsDataURL(fileInput.target.files[0]);
+    }
+  }
   hideChat() {
     this.closeChat = !this.closeChat;
   }

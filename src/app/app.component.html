@@ -72,8 +72,8 @@ background-image: linear-gradient(45deg, #07dd67, transparent);">
         <div class="w-full h-14 px-2" style="display: inline-block; height: auto;"
           *ngFor="let message of messages.slice().reverse(); index as i; first as isFirst">
           <div
-            [ngClass]="message.contact === true ? 'w-auto bg-gray-300 rounded-r-lg rounded-t-lg shadow-md overflow-hidden break-words float-left mb-2 max-w-md p-3' : 'shadow-md mb-1 w-auto bg-gray-600 rounded-l-lg rounded-t-lg  overflow-hidden break-words float-right max-w-md p-3'">
-            <div>
+            [ngClass]="message.contact === true ? 'w-auto bg-gray-300 rounded-r-lg rounded-b-lg shadow-md overflow-hidden break-words float-left mb-2 max-w-md p-3' : 'shadow-md mb-1 w-auto bg-gray-600 rounded-l-lg rounded-t-lg  overflow-hidden break-words float-right max-w-md p-3'">
+            <div *ngIf="message.file">
               <img class="rounded-lg shadow-md my-1"
                 src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQDuE2ejpy-CjPVNdAhuIVch-8DRr20pvVwxs2pBWtl&s"
                 alt="">
@@ -89,23 +89,44 @@ background-image: linear-gradient(45deg, #07dd67, transparent);">
       </div>
 
       <!-- input -->
-      <div class="bottom-0 absolute w-full bg-slate-100 h-14 flex items-center justify-center py-2">
+      <div class="bottom-0 absolute w-full bg-slate-100 h-auto flex items-center justify-center py-2">
         <div class="w-24 flex">
           <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5"
             stroke="currentColor" class="w-6 h-6 mr-4 ml-2 text-gray-500">
             <path stroke-linecap="round" stroke-linejoin="round"
               d="M15.182 15.182a4.5 4.5 0 01-6.364 0M21 12a9 9 0 11-18 0 9 9 0 0118 0zM9.75 9.75c0 .414-.168.75-.375.75S9 10.164 9 9.75 9.168 9 9.375 9s.375.336.375.75zm-.375 0h.008v.015h-.008V9.75zm5.625 0c0 .414-.168.75-.375.75s-.375-.336-.375-.75.168-.75.375-.75.375.336.375.75zm-.375 0h.008v.015h-.008V9.75z" />
           </svg>
-          <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5"
-            stroke="currentColor" class="w-6 h-6 mr-4 text-gray-500">
-            <path stroke-linecap="round" stroke-linejoin="round"
-              d="M18.375 12.739l-7.693 7.693a4.5 4.5 0 01-6.364-6.364l10.94-10.94A3 3 0 1119.5 7.372L8.552 18.32m.009-.01l-.01.01m5.699-9.941l-7.81 7.81a1.5 1.5 0 002.112 2.13" />
-          </svg>
+          <label for="fileInput">
+            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5"
+              stroke="currentColor" class="w-6 h-6 mr-4 text-gray-500 cursor-pointer">
+              <path stroke-linecap="round" stroke-linejoin="round"
+                d="M18.375 12.739l-7.693 7.693a4.5 4.5 0 01-6.364-6.364l10.94-10.94A3 3 0 1119.5 7.372L8.552 18.32m.009-.01l-.01.01m5.699-9.941l-7.81 7.81a1.5 1.5 0 002.112 2.13" />
+            </svg>
+          </label>
+          <input (change)="fileChangeEvent($event)" type="file" id="fileInput" hidden />
         </div>
-        <div class="w-5/6 bg-white shadow-md rounded-lg h-full flex items-center justify-left pl-1">
-          <textarea (keyup.enter)="addMessage(); message.content = ''" [(ngModel)]="message.content" type="text"
+
+        <div class="w-5/6 bg-white shadow-md rounded-lg h-full flex-column items-center justify-left pl-1">
+          <div class="bg-gray-300 rounded-full flex text-sm items-center justify-evenly px-1 py-1 shadow-2xl"
+            *ngIf="fileSelected.name" style="max-width: 25%;">
+            <div class="flex w-5/6">
+              <span class="truncate w-5/6 font-bold text-gray-600" style="
+              max-width: 68%;">
+                {{fileSelected.name}}
+              </span>
+              <span class="w-auto font-bold text-yellow-800">.{{fileSelected.type}}</span>
+            </div>
+
+            <svg (click)="fileSelected.name = ''; fileSelected.link = ''" *ngIf="fileSelected"
+              xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5"
+              stroke="currentColor" class="cursor-pointer bg-gray-400 rounded-full float-right w-4 h-4">
+              <path stroke-linecap="round" stroke-linejoin="round" d="M6 18L18 6M6 6l12 12" />
+            </svg>
+
+          </div>
+          <input (keyup.enter)="addMessage(); message.content = ''" [(ngModel)]="message.content" type="text"
             placeholder="Type a message..."
-            class="w-full h-full border-0 rounded-full text-sm outline-0 active:outline-none focus:outline-none focus:ring-white"></textarea>
+            class="w-full h-full border-0 rounded-full text-sm outline-0 active:outline-none focus:outline-none focus:ring-white" />
         </div>
         <div>
           <svg (click)="addMessage(); message.content = ''" xmlns="http://www.w3.org/2000/svg" fill="none"
@@ -168,6 +189,6 @@ background-image: linear-gradient(45deg, #07dd67, transparent);">
         </svg>
 
       </div>
+    </div>
   </div>
-</div>
 </div>
